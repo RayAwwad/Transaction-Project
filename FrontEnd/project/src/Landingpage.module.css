@@ -1,0 +1,16 @@
+
+
+.carousel{
+    height:600px;
+}
+.button{
+    width:150px;
+    margin:10px;
+    transform: translateY(7px);
+}
+.text{
+    color: rgb(255, 255, 255);
+    font-weight:800;
+    transform: translateY(25px);
+    
+}

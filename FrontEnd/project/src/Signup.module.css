@@ -1,0 +1,108 @@
+
+.body{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container{
+    
+    display: flex;
+    justify-content: center;
+    height: 465px;
+    border: 1px solid white;
+    width: 400px;
+    box-sizing: border-box;
+    background-color: rgba(194, 144, 144,0);
+    border-radius: 5px;
+    padding: 30px 10px;
+    backdrop-filter: blur(15px);
+    position: relative;
+ }
+ .title{
+     text-align: center;
+     color:white;
+     margin-bottom:15px;
+     margin-left: -40px;
+ }
+ .login_info input{
+    width: 355px;
+    box-sizing: border-box;
+    padding: 8px 28px 8px 8px;
+    background-color: rgba(194, 144, 144,0) ;
+    border: 1px solid white;
+ border-radius: 5px;
+ margin: 5px;
+ color:white;
+
+ }
+ .login_info input::placeholder{
+     color: white;
+ }
+ .login_info input:focus{
+     outline: none;
+ }
+ .name_info input{
+    width: 172px;
+    box-sizing: border-box;
+    padding: 8px 28px 8px 8px;
+    background-color: rgba(194, 144, 144,0) ;
+    border: 1px solid white;
+ border-radius: 5px;
+ margin: 5px;
+ color:white;
+ }
+ .name_info input::placeholder{
+color: white;
+ }
+ .name_info input:focus{
+    outline: none;
+ }
+ .moreinfo{
+     display: flex;
+     justify-content: space-between;
+ }
+ .error{
+     color:red;
+     margin:6px 5px;
+     font-size: 15px;
+ }
+ .button{
+     width: 97%;
+     margin: 8px 5px;
+     
+ }
+
+ 
+ .signup span{
+     color:white;
+     margin:5px;
+     font-size: 15px;
+ }
+ .signup a{
+     text-decoration: none;
+ }
+ .signup a:hover{
+     text-decoration: underline;
+ }
+ .icon{
+    position: absolute;
+    right: 30px;
+    transform: translateY(-34px);
+    color:white;
+    }
+    .back{
+        color: white;
+        font-size: 27px;
+    transform: translateX(-92px);
+        cursor: pointer;
+        
+    }
+    .accountexists{
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+   
