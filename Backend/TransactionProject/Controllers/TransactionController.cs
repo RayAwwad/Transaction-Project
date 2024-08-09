@@ -49,6 +49,7 @@ namespace TransactionProject.Controllers
                 ReceiverId = transactionDto.ReceiverId,
                 Amount = transactionDto.Amount
             };
+           
 
             DbContext.Transactions.Add(transactionRecord);
             await DbContext.SaveChangesAsync();

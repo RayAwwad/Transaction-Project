@@ -48,7 +48,7 @@ const response = await fetch("https://localhost:7043/api/User/signup", {
 })
 if(!response.ok){
     
-    setErrorMessage("An error occured. Please try again");
+    setErrorMessage("Account already exists.");
     return;
 }
 const user= await response.json();
