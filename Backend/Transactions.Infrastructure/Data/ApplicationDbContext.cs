@@ -1,5 +1,6 @@
-﻿using TransactionProject.Models.Entities;
+﻿
 using Microsoft.EntityFrameworkCore;
+using Transactions.Domain.Entities;
 
 
 
@@ -14,7 +15,7 @@ namespace TransactionProject.Data
         }
 
        public DbSet<User> Users {get; set;}
-       public DbSet<Transactions> Transactions {get; set;}
+       public DbSet<Transaction> Transactions {get; set;}
 
     }
 }

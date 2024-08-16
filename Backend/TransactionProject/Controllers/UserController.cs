@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TransactionProject.Data;
 using TransactionProject.Models;
-using TransactionProject.Models.Entities;
+using Transactions.Domain.Entities;
 
 namespace TransactionProject.Controllers
 {
@@ -24,57 +24,6 @@ namespace TransactionProject.Controllers
         }
 
         
-        [HttpPost("signup")]
-        public async Task<IActionResult> SignUp(UserDto userdto)
-        {
-            var userExists = await DbContext.Users.AnyAsync(x => x.Email == userdto.Email);
-            if (userExists)
-                return BadRequest("User already exists");
-
-            var salt = PasswordHasher.GenerateSalt();
-            var hashedPassword = PasswordHasher.HashPassword(userdto.Password, salt);
-
-            var user = new User
-            {
-                FirstName = userdto.FirstName,
-                LastName = userdto.LastName,
-                Email = userdto.Email,
-                PasswordHash = hashedPassword,
-                Salt = salt,
-                Balance = 0 
-            };
-
-            DbContext.Users.Add(user);
-            await DbContext.SaveChangesAsync();
-            var token = jwtHelper.GenerateToken(user.Id);
-
-            return Ok(new { user.FirstName, user.LastName, user.Email, user.Balance, Token = token });
-        }
-
-      
-        [HttpPost("login")]
-        public async Task<IActionResult> LogIn(LoginDto loginDto)
-        {
-
-            var user = await DbContext.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email);
-
-            if (user == null)
-            {
-                return Unauthorized("Account not found");
-            }
-
-            var isValidPassword = PasswordHasher.VerifyPassword(loginDto.Password, user.PasswordHash, user.Salt);
-            if (!isValidPassword)
-            {
-                return Unauthorized("Invalid password");
-            }
-
-            var token = jwtHelper.GenerateToken(user.Id);
-
-            return Ok(new { user.FirstName, user.LastName, user.Email, user.Balance, Token = token });
-        }
-
-
 
   
         [HttpPut("{id}")]

@@ -2,7 +2,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import classes from "./ModalComponent.module.css";
 
 type User = {
@@ -24,7 +24,11 @@ const ModalComponent: React.FC<ModalComponentProps> = ({handleClose, show })=> {
 const [user, setUser] = useState<User | null>(null);
 const [isEditing, setIsEditing] = useState(false);
 
-const { register, handleSubmit, setValue, formState: { errors } } = useForm<User>();
+const { register, 
+        handleSubmit,
+         setValue, 
+         formState: { errors } 
+      } = useForm<User>();
 
 useEffect(() => {
     const fetchUserById = async () => {
@@ -73,7 +77,7 @@ useEffect(() => {
     setIsEditing(false);
     };
     
-    const onSubmit = async (data: User) => {
+    const onSubmit: SubmitHandler<User> = async (data) => {
     const token = localStorage.getItem("token");
     if (!token) {
     console.error("No token found");

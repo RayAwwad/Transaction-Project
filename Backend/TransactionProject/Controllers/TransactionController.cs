@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using TransactionProject.Data;
 using TransactionProject.Models;
-using TransactionProject.Models.Entities;
+using Transactions.Domain.Entities;
+
 
 namespace TransactionProject.Controllers
 {
@@ -26,7 +27,7 @@ namespace TransactionProject.Controllers
             var senderId = GetUserIdFromToken();
 
 
-            var sender = await DbContext.Users.FindAsync(senderId); 
+            var sender = await DbContext.Users.FindAsync(senderId);
             var receiver = await DbContext.Users.FindAsync(transactionDto.ReceiverId);
 
             if (sender == null)
@@ -43,13 +44,13 @@ namespace TransactionProject.Controllers
             sender.Balance -= transactionDto.Amount;
             receiver.Balance += transactionDto.Amount;
 
-            var transactionRecord = new Transactions
+            var transactionRecord = new Transaction
             {
                 SenderId = senderId.Value,
                 ReceiverId = transactionDto.ReceiverId,
                 Amount = transactionDto.Amount
             };
-           
+
 
             DbContext.Transactions.Add(transactionRecord);
             await DbContext.SaveChangesAsync();

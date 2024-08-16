@@ -6,12 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ModalComponent from "./ModalComponent"; 
 import classes from "./Navigation.module.css";
 
-type User = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  balance: number;
-};
+
 
 const Navigation = () => {
   const [show, setShow] = useState(false);
