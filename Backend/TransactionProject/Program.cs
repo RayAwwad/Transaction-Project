@@ -5,6 +5,9 @@ using System.Text;
 using TransactionProject.Data;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using Transactions.Application.Interfaces;
+using Transactions.Application.Services;
+using Transactions.Infrastructure.Repositories;
 
 
 
@@ -12,7 +15,12 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<JwtHelper>();
-
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IUserAuth, AuthService>();
+builder.Services.AddScoped<IUserInfoRepo, UserInfoRepo>();
+builder.Services.AddScoped<IUserInfoService, UserService>();
+builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -34,7 +42,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnections")));
 
-
+// This prevents issues when serializing objects that refer to each other,
+// by including metadata in the JSON to keep track of these references.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -66,6 +75,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddSwaggerGen(c =>
 {
+    // Define a new security scheme for JWT Bearer authentication.
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
@@ -74,7 +84,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
-
+    // Apply the security scheme globally to all API endpoints.
     c.AddSecurityRequirement(new OpenApiSecurityRequirement{
     {
         new OpenApiSecurityScheme

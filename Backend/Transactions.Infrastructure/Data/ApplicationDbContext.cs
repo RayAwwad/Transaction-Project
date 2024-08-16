@@ -19,14 +19,14 @@ namespace TransactionProject.Data
                 .HasOne(t => t.Sender)
                 .WithMany(u => u.SentTransactions)
                 .HasForeignKey(t => t.SenderId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete
+                .OnDelete(DeleteBehavior.Restrict); // Prevent delete
 
             // Configure one-to-many relationship for ReceivedTransactions
             modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.Receiver)
                 .WithMany(u => u.ReceivedTransactions)
                 .HasForeignKey(t => t.ReceiverId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete
+                .OnDelete(DeleteBehavior.Restrict); // Prevent delete
 
             base.OnModelCreating(modelBuilder);
         }

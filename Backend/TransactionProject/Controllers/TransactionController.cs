@@ -4,6 +4,8 @@ using System.Security.Claims;
 using TransactionProject.Data;
 using TransactionProject.Models;
 using Transactions.Domain.Entities;
+using Transactions.Application.Interfaces;
+using Transactions.Application.Services;
 
 
 namespace TransactionProject.Controllers
@@ -13,59 +15,28 @@ namespace TransactionProject.Controllers
     [Authorize]
     public class TransactionController : ControllerBase
     {
-        private readonly ApplicationDbContext DbContext;
+        private readonly ITransactionService transactionService;
 
-        public TransactionController(ApplicationDbContext DbContext)
+        public TransactionController(ITransactionService transactionService)
         {
-            this.DbContext = DbContext;
+            this.transactionService = transactionService;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTransaction(TransactionDto transactionDto)
         {
-            //lets me get the logged in user id
             var senderId = GetUserIdFromToken();
+            if (senderId == null)
+                return Unauthorized();
 
-
-            var sender = await DbContext.Users.FindAsync(senderId);
-            var receiver = await DbContext.Users.FindAsync(transactionDto.ReceiverId);
-
-            if (sender == null)
-                return NotFound("Sender not found");
-
-            if (receiver == null)
-                return NotFound("Receiver not found");
-
-            if (sender.Balance < transactionDto.Amount)
-                return BadRequest("Insufficient balance");
-
-            using var transaction = await DbContext.Database.BeginTransactionAsync();
-
-            sender.Balance -= transactionDto.Amount;
-            receiver.Balance += transactionDto.Amount;
-
-            var transactionRecord = new Transaction
-            {
-                SenderId = senderId.Value,
-                ReceiverId = transactionDto.ReceiverId,
-                Amount = transactionDto.Amount
-            };
-
-
-            DbContext.Transactions.Add(transactionRecord);
-            await DbContext.SaveChangesAsync();
-            await transaction.CommitAsync();
-
-            return Ok(transactionRecord);
+            return await transactionService.CreateTransactionAsync(transactionDto, senderId.Value);
         }
 
         private int? GetUserIdFromToken()
         {
-            //contains all the info of the user such as his id
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
-                //i get the user id from the whole identity
                 var userIdClaim = identity.FindFirst("Id");
                 if (userIdClaim != null)
                 {
