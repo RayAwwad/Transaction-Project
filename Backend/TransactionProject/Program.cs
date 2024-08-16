@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TransactionProject.Data;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 
 
@@ -32,6 +33,13 @@ builder.Services.AddCors(options =>
 //EF configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnections")));
+
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    });
 
 //Jwt configuration
 builder.Services.AddAuthentication(options =>

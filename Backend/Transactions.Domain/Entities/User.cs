@@ -1,6 +1,4 @@
-﻿
-
-namespace Transactions.Domain.Entities
+﻿namespace Transactions.Domain.Entities
 {
     public class User
     {
@@ -12,7 +10,8 @@ namespace Transactions.Domain.Entities
         public required string PasswordHash { get; set; }
         public required string Salt { get; set; }
 
-
-
+        // Navigation properties for transactions
+        public ICollection<Transaction> SentTransactions { get; set; }
+        public ICollection<Transaction> ReceivedTransactions { get; set; }
     }
 }
