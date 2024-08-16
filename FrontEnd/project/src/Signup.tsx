@@ -34,7 +34,7 @@ const [errorMessage, setErrorMessage] = useState<string | null>(null);
 const onSubmit : SubmitHandler<Data> =async (data)=>{
 
     try{
-const response = await fetch("https://localhost:7043/api/User/signup", {
+const response = await fetch("https://localhost:7043/api/Access/signup", {
     method: "POST",
     headers: {
         "Content-Type" : "application/json",
@@ -46,9 +46,14 @@ const response = await fetch("https://localhost:7043/api/User/signup", {
         lastname: data.lastName,
     })
 })
-if(!response.ok){
-    
-    setErrorMessage("Account already exists.");
+
+
+if (!response.ok) {
+    if (response.status === 400) {
+        setErrorMessage("Account already exists. Please try logging in.");
+        return;
+    }
+    setErrorMessage("An error has occurred. Please try again later.");
     return;
 }
 const user= await response.json();
@@ -58,7 +63,7 @@ navigate("/landing");
 reset();
     }
     catch(error){
-        setErrorMessage("Account already exists.");
+        console.log("Error")
     }
 
 

@@ -26,7 +26,7 @@ const navigate = useNavigate();
 
 const onSubmit: SubmitHandler<Data> = async (data)=>{
 try{
-const response = await fetch("https://localhost:7043/api/User/login",{
+const response = await fetch("https://localhost:7043/api/Access/login",{
     method: "POST",
     headers: {
         "Content-Type" : "application/json"
