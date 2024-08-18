@@ -18,8 +18,12 @@ namespace Transactions.Application.Services
 
         public async Task<IActionResult> SignUpAsync(UserDto userDto)
         {
-            if (await repo.UserExistsAsync(userDto.Email))
+            var userExists = await repo.UserExistsAsync(userDto.Email);
+            if (userExists)
+            {
                 return new BadRequestObjectResult("User already exists");
+            }
+           
 
             var salt = PasswordHasher.GenerateSalt();
             var hashedPassword = PasswordHasher.HashPassword(userDto.Password, salt);

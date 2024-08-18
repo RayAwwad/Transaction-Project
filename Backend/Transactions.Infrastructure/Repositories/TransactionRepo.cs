@@ -19,16 +19,13 @@ namespace Transactions.Infrastructure.Repositories
             return await dbContext.Users.FindAsync(userId);
         }
 
-        public async Task CreateTransactionAsync(Transaction transaction)
+        public async Task AddTransactionAsync(Transaction transaction)
         {
             dbContext.Transactions.Add(transaction);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await dbContext.SaveChangesAsync();
-        }
+     
 
         public async Task BeginTransactionAsync()
         {

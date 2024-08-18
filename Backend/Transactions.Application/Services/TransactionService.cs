@@ -39,8 +39,8 @@ namespace Transactions.Application.Services
                 Amount = transactionDto.Amount
             };
 
-            await transactionRepo.CreateTransactionAsync(transactionRecord);
-            await transactionRepo.SaveChangesAsync();
+            await transactionRepo.AddTransactionAsync(transactionRecord);
+           
             await transactionRepo.CommitTransactionAsync();
 
             return new OkObjectResult(transactionRecord);

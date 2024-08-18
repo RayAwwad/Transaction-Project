@@ -5,8 +5,8 @@ namespace Transactions.Application.Interfaces
     public interface ITransactionRepo
     {
         Task<User> GetUserByIdAsync(int userId);
-        Task CreateTransactionAsync(Transaction transaction);
-        Task SaveChangesAsync();
+        Task AddTransactionAsync(Transaction transaction);
+       
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
     }
