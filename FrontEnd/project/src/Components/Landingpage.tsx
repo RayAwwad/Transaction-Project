@@ -1,5 +1,5 @@
-import classes from "./Landingpage.module.css";
-import Navigation from "./Navigation";
+import classes from "../Styles/Landingpage.module.css";
+import Navigation from "../Components/Navigation";
 import { useNavigate } from "react-router-dom";
 import Carousel from 'react-bootstrap/Carousel';
 import Carouselimage from "./Carouselimage";

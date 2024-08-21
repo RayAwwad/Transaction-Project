@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import classes from "./Transaction.module.css";
+import classes from "../Styles/Transaction.module.css";
 import Navigation from "./Navigation";
 import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from "react";

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import classes from "./LoginPage.module.css";
+import classes from "../Styles/LoginPage.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";

@@ -112,6 +112,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    //used for detailed error messages
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
