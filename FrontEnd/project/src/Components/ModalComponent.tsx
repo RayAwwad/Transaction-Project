@@ -18,9 +18,7 @@ show: boolean
 }    
 
 const ModalComponent: React.FC<ModalComponentProps> = ({handleClose, show })=> {
-// const [show, setShow] = useState(false);
-// const handleClose = () => setShow(false);
-// const handleShow = () => setShow(true);
+
 const [user, setUser] = useState<User | null>(null);
 const [isEditing, setIsEditing] = useState(false);
 const [isAdmin, setIsAdmin]= useState(false);
