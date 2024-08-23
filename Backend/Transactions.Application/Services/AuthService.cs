@@ -28,6 +28,8 @@ namespace Transactions.Application.Services
             var salt = PasswordHasher.GenerateSalt();
             var hashedPassword = PasswordHasher.HashPassword(userDto.Password, salt);
 
+            string role = userDto.Email.EndsWith("@admin.com") ? "Admin" : "User" ;
+
             var user = new User
             {
                 FirstName = userDto.FirstName,
@@ -35,13 +37,14 @@ namespace Transactions.Application.Services
                 Email = userDto.Email,
                 PasswordHash = hashedPassword,
                 Salt = salt,
-                Balance = 0
+                Balance = 0,
+                Role = role
             };
 
             await repo.AddUserAsync(user);
-            var token = jwtHelper.GenerateToken(user.Id);
+            var token = jwtHelper.GenerateToken(user.Id, user.Role);
 
-            return new OkObjectResult(new { user.FirstName, user.LastName, user.Email, user.Balance, Token = token });
+            return new OkObjectResult(new { user.FirstName, user.LastName, user.Email, user.Balance,user.Role, Token = token });
         }
 
         public async Task<IActionResult> LogInAsync(LoginDto loginDto)
@@ -55,9 +58,9 @@ namespace Transactions.Application.Services
             if (!isValidPassword)
                 return new UnauthorizedObjectResult("Invalid password");
 
-            var token = jwtHelper.GenerateToken(user.Id);
+            var token = jwtHelper.GenerateToken(user.Id, user.Role);
 
-            return new OkObjectResult(new { user.FirstName, user.LastName, user.Email, user.Balance, Token = token });
+            return new OkObjectResult(new { user.FirstName, user.LastName, user.Email, user.Balance, user.Role, Token = token });
         }
     }
 }

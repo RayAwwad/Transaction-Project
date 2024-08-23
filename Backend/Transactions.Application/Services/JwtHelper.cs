@@ -13,14 +13,14 @@ public class JwtHelper
         this.configuration = configuration;
     }
 
-    public string GenerateToken(int userId)
+    public string GenerateToken(int userId, string role)
     {
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim("Id", userId.ToString()),
-           
+            new Claim(ClaimTypes.NameIdentifier , userId.ToString()),
+           new Claim(ClaimTypes.Role, role )
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TransactionProject.Data;
 using TransactionProject.Models;
@@ -27,6 +28,7 @@ namespace TransactionProject.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUserDto updateUserDto)
         {
             return await userInfoService.UpdateUserAsync(id, updateUserDto);

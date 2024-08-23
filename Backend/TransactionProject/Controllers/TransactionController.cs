@@ -37,7 +37,7 @@ namespace TransactionProject.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
-                var userIdClaim = identity.FindFirst("Id");
+                var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
                 if (userIdClaim != null)
                 {
                     return int.Parse(userIdClaim.Value);

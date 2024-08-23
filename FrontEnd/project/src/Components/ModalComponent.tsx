@@ -23,6 +23,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({handleClose, show })=> {
 // const handleShow = () => setShow(true);
 const [user, setUser] = useState<User | null>(null);
 const [isEditing, setIsEditing] = useState(false);
+const [isAdmin, setIsAdmin]= useState(false);
 
 const { register, 
         handleSubmit,
@@ -39,7 +40,12 @@ useEffect(() => {
     }
     
     const decodedToken: any = jwtDecode(token);
-    const userId = decodedToken.Id;
+    const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+    const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+
+    if(userRole === "Admin"){
+setIsAdmin(true);
+    }
     
     const response = await fetch(`https://localhost:7043/api/User/${userId}`, {
     method: "GET",
@@ -85,7 +91,8 @@ useEffect(() => {
     }
     
     const decodedToken: any = jwtDecode(token);
-    const userId = decodedToken.Id;
+    
+    const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
     
     try {
     const response = await fetch(`https://localhost:7043/api/User/${userId}`, {
@@ -129,7 +136,7 @@ useEffect(() => {
         message: "Please enter a valid name"
       }
       })}
-    readOnly={!isEditing} />
+    readOnly={!isEditing  || !isAdmin} />
 
     </div>
     {errors.firstName && <p className={classes.error}>{errors.firstName.message}</p>}
@@ -146,7 +153,7 @@ useEffect(() => {
         message: "Please enter a valid name"
       }
       })}
-    readOnly={!isEditing} />
+    readOnly={!isEditing  || !isAdmin} />
 
     </div>
     {errors.lastName && <p className={classes.error}>{errors.lastName.message}</p>}
@@ -161,7 +168,7 @@ useEffect(() => {
         message: "Invalid email"
       }
     })}
-    readOnly={!isEditing} />
+    readOnly={!isEditing  || !isAdmin} />
 
     </div>
     {errors.email && <p className={classes.error}>{errors.email.message}</p>}
@@ -176,21 +183,31 @@ useEffect(() => {
         message: "Balance must greater than 0.1 "
       }
     })}
-    readOnly={!isEditing} />
+    readOnly={!isEditing || !isAdmin} />
     </div>
     {errors.balance && <p className={classes.error}>{errors.balance.message}</p>}
 
     </form>
 
     <Modal.Footer>
-    {isEditing ? (
-    <>
-      <Button onClick={handleSubmit(onSubmit)}  className={classes.save} variant="outline-success"> Save </Button>{''}
-      <Button type="button" onClick={handleCancel} className={classes.cancel} variant="outline-danger">Cancel</Button>
-    </>
-    ) : (
-    <Button type="button" onClick={handleEdit} className={classes.edit} variant="outline-secondary">Edit</Button>
-    )}
+    {isAdmin && !isEditing ? (
+            <Button type="button" onClick={handleEdit} className={classes.edit} variant="outline-secondary">
+              Edit
+            </Button>
+          ) : isEditing ? (
+            <>
+              <Button onClick={handleSubmit(onSubmit)} className={classes.save} variant="outline-success">
+                Save
+              </Button>
+              <Button type="button" onClick={handleCancel} className={classes.cancel} variant="outline-danger">
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <Button type="button" onClick={handleClose} className={classes.close} variant="outline-secondary">
+              Close
+            </Button>
+          )}
     </Modal.Footer>
     </Modal.Body>
 </Modal>
