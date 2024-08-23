@@ -1,5 +1,5 @@
 import classes from "../Styles/Signup.module.css";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
@@ -31,7 +31,7 @@ const handleClick = ()=>{
 
 const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-const onSubmit : SubmitHandler<Data> =async (data)=>{
+const onSubmit=async (data: Data)=>{
 
     try{
 const response = await fetch("https://localhost:7043/api/Access/signup", {

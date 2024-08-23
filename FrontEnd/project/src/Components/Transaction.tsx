@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import classes from "../Styles/Transaction.module.css";
 import Navigation from "./Navigation";
 import Button from 'react-bootstrap/Button';
@@ -22,7 +22,7 @@ const [error, setError] = useState<string | null>(null);
 const [success, setSuccess] = useState<string | null>(null);
 
 
-const onSubmit: SubmitHandler<Transaction> = async (data) => {
+const onSubmit= async (data :Transaction) => {
 
 const token = localStorage.getItem("token");
 try {
